@@ -221,6 +221,8 @@ Remove-MpPreference -ExclusionPath C:\malware-samples\
 Set-MpPreference -ExclusionExtension EXT
 ```
 
+## Controlled Folders
+TODO: this
 
 ## Manual Scans
 
