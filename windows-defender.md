@@ -4,6 +4,9 @@ All examples are in PowerShell.
 For more information, please see the official documentation:
 [Microsoft Documentation for Defender](https://docs.microsoft.com/en-us/powershell/module/defender/?view=windowsserver2019-ps)
 
+## Event logs
+TODO: this
+
 ## Get Status
 
 This will list versions of various Microsoft Defender components, last scan times, and the engine's state.
@@ -11,34 +14,38 @@ This will list versions of various Microsoft Defender components, last scan time
 ```
 Get-MpComputerStatus
 ```
+TODO: output
 
 AntivirusEnabled will show True if it is enabled, otherwise False.
 
 ## Get/Set Preferences
-
 ### Get Preferences
 ```
 Get-MpPreference
 ```
+TODO: output
 
 ### Set Preferences
 ```
 Set-MpPreference -PREFERENCE Setting
 ```
 
-### Exclusions
+## Exclusions
+Sometimes, malware or attackers may make malicious configurations to exclude directories.
 
-#### Exclude a directory
+Smart attackers may store malware in pre-existing, legitimate exclusion directories.
+
+### Exclude a directory
 ```
 Set-MpPreference -ExclusionPath C:\malware-samples\
 ```
 
-#### Remove a directory exclusion
+### Remove a directory exclusion
 ```
 Remove-MpPreference -ExclusionPath C:\malware-samples\
 ```
 
-#### Exclude a file type
+### Exclude a file type
 ```
 Set-MpPreference -ExclusionExtension EXT
 ```
