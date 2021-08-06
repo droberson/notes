@@ -5,17 +5,26 @@ For more information, please see the official documentation:
 [Microsoft Documentation for Defender](https://docs.microsoft.com/en-us/powershell/module/defender/?view=windowsserver2019-ps)
 
 ## Event logs
-Get events from `Microsoft-Windows-Windows Defender/Operational`
+Get events from `Microsoft-Windows-Windows Defender/Operational`.
+
+Event IDs and descriptions can be found here:
+
+https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus?view=o365-worldwide
+
+This log typically resides at `C:\Windows\System32\winevt\logs\Microsoft-Windows-Windows Defender/Operational.evtx`
+
+### Dump Defender Log in List Format
 ```
 Get-WinEvent -Logname "Microsoft-Windows-Windows Defender/Operational" | Format-List
 ```
 
 ## Get Status
-
 This will list versions of various Microsoft Defender components, last scan times, and the engine's state.
+
 ```
 Get-MpComputerStatus
 ```
+
 Example output:
 ```
 PS C:\> Get-MpComputerStatus
@@ -65,6 +74,8 @@ AntivirusEnabled will show True Defender it is enabled, otherwise False.
 
 ## Get/Set Preferences
 ### Get Preferences
+Some fields may be unavailable or masked for non-administrator users.
+
 ```
 Get-MpPreference
 ```
@@ -185,6 +196,17 @@ Sometimes, malware or attackers may make malicious configurations to exclude dir
 Smart attackers may store malware in pre-existing, legitimate exclusion directories.
 
 ### Exclude a directory
+Exclusions are often created in enterprise environments due to the performance impact of scanning
+"busy" directories.
+
+Directories related to developer activity are often excluded.
+
+System administrators often use tools which may get flagged as malware. These directories may be excluded.
+
+Exclusions may be useful when analyzing malware so Defender does not quarantine your samples.
+
+Care should be taken with exclusions. Over-reaching exclusions may enable malware to run freely.
+
 ```
 Set-MpPreference -ExclusionPath C:\malware-samples\
 ```
