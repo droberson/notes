@@ -68,3 +68,18 @@ while [ $count -gt 0 ]; do
     count=$(($count - 100))
 done
 ```
+
+## Download all releases
+```sh
+#!/bin/sh
+
+if [ ! $1 ]; then
+    echo usage $0 username/repo
+    exit
+fi
+
+for i in $(curl -s "https://api.github.com/repos/$1/releases" | jq '.[].assets[].browser_download_url'); do
+    # lol @ curl and wget
+    wget -x $(echo $i | tr -d \")
+done
+```
