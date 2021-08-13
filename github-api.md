@@ -1,4 +1,5 @@
 # GitHub API
+Most of these require `jq` and `curl`.
 
 ## User Information
 ```
