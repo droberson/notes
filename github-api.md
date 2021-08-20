@@ -84,3 +84,32 @@ for i in $(curl -s "https://api.github.com/repos/$1/releases" | jq '.[].assets[]
     wget -x $(echo $i | tr -d \")
 done
 ```
+
+## List user's starred repos
+```sh
+#!/bin/sh
+
+# https://gist.github.com/sebble/e5af3d03700bfd31c62054488bfe8d4f
+
+if [ ! $1 ]; then
+    echo usage $0 github_username
+    exit 1
+fi
+
+count=$(curl -sI "https://api.github.com/users/$1/starred?per_page=1" | grep "^link:" | egrep -o 'page=[0-9]+' | tail -n 1 | cut -d = -f 2)
+
+if [ -z "$count" ] || [ "$count" = "null" ]; then
+    echo error
+    exit
+fi
+
+x=1
+while [ $count -gt 0 ]; do
+    for repo in $(curl -s "https://api.github.com/users/$1/starred?&per_page=100&page=$x" | jq '.[].clone_url'); do
+	echo "$repo"
+	#git clone $(echo "$repo" | tr -d \")
+    done
+    x=$(($x + 1))
+    count=$(($count - 100))
+done
+```
