@@ -107,7 +107,6 @@ x=1
 while [ $count -gt 0 ]; do
     for repo in $(curl -s "https://api.github.com/users/$1/starred?&per_page=100&page=$x" | jq '.[].clone_url'); do
 	echo "$repo"
-	#git clone $(echo "$repo" | tr -d \")
     done
     x=$(($x + 1))
     count=$(($count - 100))
