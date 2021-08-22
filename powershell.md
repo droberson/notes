@@ -65,5 +65,17 @@ function Get-LNKsInPath($Path, $Pattern) {
     }
 }
 
+function Get-LNKsInPathOnlyPath($Path, $Pattern) {
+    $LNKs = Get-ChildItem -Path $Path -Recurse -Force -Filter "*.lnk" -ErrorAction SilentlyContinue
+    foreach ($LNK in $LNKs) {
+        $t = Dump-LNK($LNK.FullName)
+        if ($Pattern -ne $null) {
+            if ($t.TargetPath.Contains($Pattern) -or $t.ARguments.Contains($Pattern)) { $t.FullName }
+        } else {
+            $t.FullName
+        }
+    }
+}
+
 Get-LNKsInPath -Path "C:\users\"  -Pattern "malware"
 ```
