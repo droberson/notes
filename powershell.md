@@ -45,5 +45,25 @@ This may require installing additional versions of the .NET Framework on the hos
 powershell.exe -Version 2
 ```
 
-## Useful One-liners
-TODO: this
+## LNK Files
+```powershell
+function Dump-LNK($FullPath) {
+    $sh = New-Object -ComObject Wscript.Shell
+    $lnk = $sh.CreateShortcut($FullPath)
+    $lnk
+}
+
+function Get-LNKsInPath($Path, $Pattern) {
+    $LNKs = Get-ChildItem -Path $Path -Recurse -Force -Filter "*.lnk" -ErrorAction SilentlyContinue
+    foreach ($LNK in $LNKs) {
+        $t = Dump-LNK($LNK.FullName)
+        if ($Pattern -ne $null) {
+            if ($t.TargetPath.Contains($Pattern) -or $t.ARguments.Contains($Pattern)) { $t }
+        } else {
+            $t
+        }
+    }
+}
+
+Get-LNKsInPath -Path "C:\users\"  -Pattern "malware"
+```
