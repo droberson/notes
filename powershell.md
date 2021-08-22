@@ -45,6 +45,13 @@ This may require installing additional versions of the .NET Framework on the hos
 powershell.exe -Version 2
 ```
 
+## Timing commands
+This is similar to `time` on *nix. https://learn-powershell.net/2012/06/26/quick-hits-how-long-did-that-last-command-take/
+
+```powershell
+(Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime
+```
+
 ## LNK Files
 ```powershell
 function Dump-LNK($FullPath) {
